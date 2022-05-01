@@ -4,6 +4,7 @@ const { setTimeout } = require("node:timers/promises");
 /** ** CONFIG ** */
 const USERNAME = "YOUR_USERNAME";
 const PASSWORD = "YOUR_PASSWORD";
+const SHOULD_LOGIN = false;
 /** ** .. CONFIG ** */
 
 const WATCH_URL = "https://www.netflix.com/watch/";
@@ -187,6 +188,7 @@ exports.run = async function ({ videoId, sessionDurationInMin }) {
   }
 
   async function login() {
+    if (!SHOULD_LOGIN) return;
     {
       const targetPage = page;
       const promises = [];
@@ -336,13 +338,13 @@ exports.run = async function ({ videoId, sessionDurationInMin }) {
     const targetPage = page;
     await targetPage.setViewport({ width: 0, height: 0 });
   }
-  // {
-  //   try {
-  //     await login();
-  //   } catch (e) {
-  //     console.warn("no logging in", e);
-  //   }
-  // }
+  {
+    try {
+      await login();
+    } catch (e) {
+      console.warn("no logging in", e);
+    }
+  }
   {
     const targetPage = page;
     const promises = [];
